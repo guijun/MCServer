@@ -11,7 +11,7 @@ typedef cItemCallback<cBlockEntity> cBlockEntityCallback;
 
 class cMonster;
 class cPlayer;
-class cTask;
+class cChunkInterface;
 
 
 class cWorldInterface
@@ -59,6 +59,59 @@ public:
 
 	/** Wakes up the simulators for the specified block */
 	virtual void WakeUpSimulators(int a_BlockX, int a_BlockY, int a_BlockZ) = 0;
+
+	class cTask
+	{
+	protected:
+		virtual void Run(cWorld & a_World) = 0;
+	};
+
+
+	class cTaskSaveAllChunks :
+		public cTask
+	{
+	protected:
+		// cTask overrides:
+		virtual void Run(cWorld & a_World) override;
+	};
+
+
+	class cTaskUnloadUnusedChunks :
+		public cTask
+	{
+	protected:
+		// cTask overrides:
+		virtual void Run(cWorld & a_World) override;
+	};
+
+
+	class cTaskSendBlockToAllPlayers :
+		public cTask
+	{
+	public:
+		cTaskSendBlockToAllPlayers(std::vector<Vector3i> & a_SendQueue);
+
+	protected:
+		// cTask overrides:
+		virtual void Run(cWorld & a_World) override;
+
+		std::vector<Vector3i> m_SendQueue;
+	};
+
+	class cTaskTryAwakeSleepingPlayers :
+		public cTask
+	{
+	public:
+		cTaskTryAwakeSleepingPlayers(const Vector3i & a_Position, cChunkInterface & a_ChunkInterface);
+
+	protected:
+		// cTask overrides:
+		virtual void Run(cWorld & a_World) override;
+
+	private:
+		Vector3i m_Position;
+		cChunkInterface & m_ChunkInterface;
+	};
 
 	/** Queues a task onto the tick thread, with the specified delay.
 	The task object will be deleted once the task is finished */

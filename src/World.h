@@ -97,64 +97,62 @@ public:
 	public:
 		cLock(cWorld & a_World);
 	} ;
-
-	
-	/** A common ancestor for all tasks queued onto the tick thread */
-	class cTask
-	{
-	public:
-		virtual ~cTask() {}
-		virtual void Run(cWorld & a_World) = 0;
-	} ;
 	
 	typedef std::vector<std::unique_ptr<cTask>> cTasks;
 
 	
-	class cTaskSaveAllChunks :
-		public cTask
-	{
-	protected:
-		// cTask overrides:
-		virtual void Run(cWorld & a_World) override;
-	} ;
-	
-
-	class cTaskUnloadUnusedChunks :
-		public cTask
-	{
-	protected:
-		// cTask overrides:
-		virtual void Run(cWorld & a_World) override;
-	};
+	//class cTask
+	//{
+	//protected:
+	//	virtual void Run(cWorld & a_World) = 0;
+	//};
 
 
-	class cTaskSendBlockToAllPlayers :
-		public cTask
-	{
-	public:
-		cTaskSendBlockToAllPlayers(std::vector<Vector3i> & a_SendQueue);
+	//class cTaskSaveAllChunks :
+	//	public cTask
+	//{
+	//protected:
+	//	// cTask overrides:
+	//	virtual void Run(cWorld & a_World) override;
+	//} ;
+	//
 
-	protected:
-		// cTask overrides:
-		virtual void Run(cWorld & a_World) override;
+	//class cTaskUnloadUnusedChunks :
+	//	public cTask
+	//{
+	//protected:
+	//	// cTask overrides:
+	//	virtual void Run(cWorld & a_World) override;
+	//};
 
-		std::vector<Vector3i> m_SendQueue;
-	};
 
-	class cTaskTryAwakeSleepingPlayers :
-		public cTask
-	{
-	public:
-		cTaskTryAwakeSleepingPlayers(const Vector3i & a_Position, cChunkInterface & a_ChunkInterface);
+	//class cTaskSendBlockToAllPlayers :
+	//	public cTask
+	//{
+	//public:
+	//	cTaskSendBlockToAllPlayers(std::vector<Vector3i> & a_SendQueue);
 
-	protected:
-		// cTask overrides:
-		virtual void Run(cWorld & a_World) override;
+	//protected:
+	//	// cTask overrides:
+	//	virtual void Run(cWorld & a_World) override;
 
-	private:
-		Vector3i m_Position;
-		cChunkInterface & m_ChunkInterface;
-	};
+	//	std::vector<Vector3i> m_SendQueue;
+	//};
+
+	//class cTaskTryAwakeSleepingPlayers :
+	//	public cTask
+	//{
+	//public:
+	//	cTaskTryAwakeSleepingPlayers(const Vector3i & a_Position, cChunkInterface & a_ChunkInterface);
+
+	//protected:
+	//	// cTask overrides:
+	//	virtual void Run(cWorld & a_World) override;
+
+	//private:
+	//	Vector3i m_Position;
+	//	cChunkInterface & m_ChunkInterface;
+	//};
 
 
 	static const char * GetClassStatic(void)  // Needed for ManualBindings's ForEach templates

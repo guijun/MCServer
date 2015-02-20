@@ -127,7 +127,7 @@ void cBlockBedHandler::OnUse(cChunkInterface & a_ChunkInterface, cWorldInterface
 				a_Player->SetIsInBed(true);
 				a_Player->SendMessageSuccess("Home position set successfully");
 
-				a_WorldInterface.ScheduleTask(20, cWorld::cTaskTryAwakeSleepingPlayers(Vector3i(a_BlockX + PillowDirection.x, a_BlockY, a_BlockZ + PillowDirection.z), a_ChunkInterface));
+				a_WorldInterface.ScheduleTask(20, new cWorldInterface::cTaskTryAwakeSleepingPlayers(Vector3i(a_BlockX + PillowDirection.x, a_BlockY, a_BlockZ + PillowDirection.z), a_ChunkInterface));
 			}
 		}
 		else
