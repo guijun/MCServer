@@ -87,7 +87,7 @@ void cRoot::InputThread(cRoot & a_Params)
 		// Stop the server:
 		if (!m_RunAsService)  // Dont kill if running as a service
 		{
-			a_Params.m_ShouldStop = true;
+//			a_Params.m_ShouldStop = true;
 		}
 	}
 }
@@ -211,7 +211,6 @@ void cRoot::Start(void)
 			{
 				std::this_thread::sleep_for(std::chrono::seconds(1));
 			}
-
 			if (m_TerminateEventRaised)
 			{
 				m_ShouldStop = true;
